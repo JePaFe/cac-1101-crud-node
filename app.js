@@ -3,12 +3,14 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
+const methodOverride = require('method-override')
 
 app.set('view engine', 'ejs')
 app.use(expressLayouts)
 
 app.use(express.static(__dirname + '/public'))
 app.use(express.urlencoded({extended: false}))
+app.use(methodOverride('_method'))
 
 app.use('/', require('./routes/productos'))
 app.use('/', require('./routes/contacto'))

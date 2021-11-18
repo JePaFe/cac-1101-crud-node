@@ -1,3 +1,5 @@
+const { validationResult } = require('express-validator')
+
 const connection = require('./db')
 
 const index = (req, res) => {
@@ -25,17 +27,41 @@ const show = (req, res) => {
 }
 
 const create = (req, res) => {
-    res.render('productos/create')
+    res.render('productos/create', { values: {} })
 }
 
 const store = (req, res) => {
-    console.log(req.body)
-    res.send('Procesando')
+    // console.log(req.body)
+    // res.send('Procesando')
+
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        res.render('productos/create', { values: req.body, errors: errors.array() })
+    } else {
+        connection.query('INSERT INTO productos SET ?', 
+            { nombre: req.body.nombre, descripcion: req.body.description }, (error) => {
+            if (error) {
+                throw error
+            }
+    
+            res.redirect('/productos')
+        })
+    }
+}
+
+const edit = (req, res) => {
+    res.render('productos/edit')
+}
+
+const update = (req, res) => {
+    res.send('actualizando...')
 }
 
 module.exports = {
     index,
     show,
     create,
-    store
+    store,
+    edit,
+    update
 }
