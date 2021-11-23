@@ -1,7 +1,28 @@
+<%- include('../partials/menu') %>
+
+<% if (typeof errors != 'undefined') { %> 
+    <ul>
+    <% errors.forEach((error) => { %>
+        <li><%= error.msg %></li>
+    <% }) %>
+    </ul>
+<% } %>
+
 <form action="/productos/update?_method=PUT" method="post">
+    <input type="hidden" name="id" value="<%= values.id || producto.id %>">
     <div>
         <label for="nombre">Nombre: </label>
-        <input type="text" name="nombre" id="nombre">
+        <input type="text" name="nombre" id="nombre" 
+            value="<%= values.nombre || producto.nombre %>">
     </div>
-    <button type="submit">Enviar</button>
+    <div>
+        <label for="description">Descripcion: </label>
+        <textarea 
+            name="description" 
+            id="description" 
+            cols="30" 
+            rows="10"
+        ><%= values.description || producto.descripcion %></textarea>
+    </div>
+    <button type="submit">Guardar</button>
 </form>
