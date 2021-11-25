@@ -5,10 +5,6 @@ const { body } = require('express-validator')
 
 const controller = require('../controllers/productos')
 
-router.get('/', (req, res) => {
-    res.render('index')
-})
-
 // Update
 router.get('/productos/:nro/edit', controller.edit)
 router.put('/productos/update', [
